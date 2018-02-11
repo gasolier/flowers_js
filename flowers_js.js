@@ -12,6 +12,7 @@ function Flower (def_x, def_y, horiz_, length_) {
     for (var j = 1; j < petal_layers; j++) {
       petal_num = fib(petal_seed);
       petal_seed -= 1;
+      if (petal_num <= 1) { petal_num = 2 };
       rotate_val = 360.00 / petal_num;
       col = lerpColor(col, end_col, j / petal_layers);
       end_col = color(random(0, 255), random(0, 255), random(0, 255));
@@ -67,26 +68,30 @@ function fib (n) {
 }
 
 function setup() {
-  createCanvas(800, 800);
+  var canvas = createCanvas(document.getElementById('flower-area').offsetWidth, document.getElementById('flower-area').offsetHeight);
+  canvas.parent('flower-area');
   blendMode(LIGHTEST);
-  flower = new Flower(0, 0, 20, 300);
+  flower = new Flower(0, 0, 20, canvas.height/2 - 100);
   push();
-  translate(400, 400);
+  translate(canvas.width/2, canvas.height/2);
   flower.disp();
   pop();
 }
 
 function new_flow () {
   clear();
-  flower = new Flower(0, 0, 20, 300);
+  flower = new Flower(0, 0, 20, canvas.height/2 - 100);
   push();
-  translate(400, 400);
+  translate(canvas.width/2, canvas.height/2);
   flower.disp();
   pop();
 }
 
 function draw() {
-  window.onclick = () => {
+  new_flower.onclick = (ev) => {
     new_flow();
+  }
+  save_flower.onclick = (ev) => {
+    save("flower.png");
   }
 }

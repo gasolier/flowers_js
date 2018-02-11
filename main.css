@@ -1,6 +1,21 @@
-body {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body > #flower-area {
+	position: absolute;
+	width: 80%;
+	height: 98%;
+	margin-left: 19%;
+	border: 2px solid black;
+}
+
+body > #control-area {
+	position: absolute;
+	width: 20%;
+	height: 98%;
+	border: 2px solid black;
+}
+
+#control-area > button {
+	width: 50%;
+	height: 20%;
+	margin: 40% 25% 25% 20%;
+
 }
