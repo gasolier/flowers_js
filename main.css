@@ -8,7 +8,7 @@ body > #flower-area {
 
 body > #control-area {
 	position: absolute;
-	width: 20%;
+	width: 18%;
 	height: 98%;
 	border: 2px solid black;
 }
@@ -16,6 +16,10 @@ body > #control-area {
 #control-area > button {
 	width: 50%;
 	height: 20%;
-	margin: 40% 25% 25% 20%;
+	margin: 15% 25% 18% 20%;
+}
 
+#control-area > input {
+	width: 50%;
+	margin: 0% 0% 0% 20%;
 }

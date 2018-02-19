@@ -1,6 +1,7 @@
 var graphics_arr = new Array();
 var flower_arr = new Array();
 var cur_buffer = -1;
+var text_ = '';
 
 function Flower (def_x, def_y, horiz_, length_, graphics_buffer) {
   var base_petal;
@@ -139,57 +140,67 @@ function new_flow () {
 
 }
 
+function display_flowers () {
+  let crossover_x = (canvas.width / 3) ;
+  let crossover_y = (canvas.height / 1.3);
+  
+  for (let i = 0; i < graphics_arr.length; i++) {
+    stroke('#3E5F16');
+    strokeWeight(3);
+    beginShape();
+    let start_x = flower_arr[i].x + 128;
+    let start_y = flower_arr[i].y + 128;
+    
+    let vector_1 = createVector(crossover_x - start_x, crossover_y - start_y);
+    let vector_2 = vector_1.mult(10);
+
+    let lerp_val = 0.3;
+
+    while (vector_2.x < 10 || vector_2.y > canvas.height - 20) {
+      vector_2.x = lerp(vector_2.x, crossover_x, lerp_val);
+      vector_2.y = lerp(vector_2.y, crossover_y, lerp_val);
+    }
+
+    vertex(start_x, start_y);
+    vertex(vector_2.x, vector_2.y);
+    endShape();
+    image(graphics_arr[i], flower_arr[i].x, flower_arr[i].y);
+  }
+  
+  let cen_x = crossover_x;
+  let cen_y = crossover_y;
+  let bow_size = 60;
+  push();
+  fill('#CC2222');
+  stroke('#CC2222');
+  strokeJoin(ROUND);
+  strokeCap(ROUND);
+  strokeWeight(5);
+  translate(cen_x + 256, -cen_y + 480);
+  rotate(60);
+  beginShape();
+  quad(cen_x, cen_y - bow_size, cen_x + bow_size / 2, cen_y - bow_size / 2, cen_x, cen_y, cen_x - bow_size / 2, cen_y - bow_size / 2);
+  triangle(cen_x + bow_size / 2, cen_y - bow_size / 2, cen_x + bow_size * 1.3, cen_y, cen_x + bow_size * 1.3, cen_y - bow_size);
+  triangle(cen_x - bow_size / 2, cen_y - bow_size / 2, cen_x - bow_size * 1.3, cen_y, cen_x - bow_size * 1.3, cen_y - bow_size);
+  quad(cen_x + bow_size / 2, cen_y - bow_size / 2, cen_x + bow_size * 0.375, cen_y + bow_size / 2, cen_x + bow_size , cen_y + bow_size, cen_x + bow_size * 1.3, cen_y + bow_size / 2);
+  quad(cen_x - bow_size / 2, cen_y - bow_size / 2, cen_x - bow_size * 0.375, cen_y + bow_size / 2, cen_x - bow_size , cen_y + bow_size, cen_x - bow_size * 1.3, cen_y + bow_size / 2);
+  endShape();
+  pop();
+  
+  noStroke();
+  text(text_, 64, 64, 400);
+}
+
 function setup() {
   var canvas = createCanvas(document.getElementById('flower-area').offsetWidth, document.getElementById('flower-area').offsetHeight);
   canvas.parent('flower-area');
   angleMode(DEGREES);
+  textSize(32);
+  textFont('Brush Script MT');
+  flower_text.value = '';
   new_flow();
-  for (let i = 0; i < graphics_arr.length; i++) {
-    image(graphics_arr[i], flower_arr[i].x, flower_arr[i].y);
-  }
-}
-
-function display_flowers () {
-	let crossover_x = (canvas.width / 3) ;
-    let crossover_y = (canvas.height / 1.3);
-	for (let i = 0; i < graphics_arr.length; i++) {
-    	stroke('#00FF00');
-    	strokeWeight(2);
-    	beginShape();
-    	let start_x = flower_arr[i].x + 128;
-    	let start_y = flower_arr[i].y + 128;
-    	
-    	let vector_1 = createVector(crossover_x - start_x, crossover_y - start_y);
-    	let vector_2 = vector_1.mult(10);
-
-    	let lerp_val = 0.3;
-
-    	while (vector_2.x < 10 || vector_2.y > canvas.height - 20) {
-    		vector_2.x = lerp(vector_2.x, crossover_x, lerp_val);
-    		vector_2.y = lerp(vector_2.y, crossover_y, lerp_val);
-    	}
-
-    	vertex(start_x, start_y);
-    	vertex(vector_2.x, vector_2.y);
-    	endShape();
-    	image(graphics_arr[i], flower_arr[i].x, flower_arr[i].y);
-    }
-    let cen_x = crossover_x;
-    let cen_y = crossover_y;
-    let bow_size = 60;
-    push();
-    noStroke();
-    fill('#FF0000');
-    translate(cen_x + 256, -cen_y + 480);
-    rotate(60);
-    beginShape();
-    quad(cen_x, cen_y - bow_size, cen_x + bow_size / 2, cen_y - bow_size / 2, cen_x, cen_y, cen_x - bow_size / 2, cen_y - bow_size / 2);
-    triangle(cen_x + bow_size / 2, cen_y - bow_size / 2, cen_x + bow_size * 1.3, cen_y, cen_x + bow_size * 1.3, cen_y - bow_size);
-    triangle(cen_x - bow_size / 2, cen_y - bow_size / 2, cen_x - bow_size * 1.3, cen_y, cen_x - bow_size * 1.3, cen_y - bow_size);
-    quad(cen_x + bow_size / 2, cen_y - bow_size / 2, cen_x + bow_size * 0.375, cen_y + bow_size / 2, cen_x + bow_size , cen_y + bow_size, cen_x + bow_size * 1.3, cen_y + bow_size / 2);
-    quad(cen_x - bow_size / 2, cen_y - bow_size / 2, cen_x - bow_size * 0.375, cen_y + bow_size / 2, cen_x - bow_size , cen_y + bow_size, cen_x - bow_size * 1.3, cen_y + bow_size / 2);
-   	endShape();
-   	pop();
+  display_flowers();
+  
 }
 
 function draw() {
@@ -198,11 +209,17 @@ function draw() {
     new_flow();
     display_flowers();
   }
+  
   save_flower.onclick = (ev) => {
   	background(255);
   	display_flowers();
     save("flower.png");
     clear();
+    display_flowers();
+  }
+  
+  add_text.onclick = (ev) => {
+    text_ = flower_text.value;
     display_flowers();
   }
 }
